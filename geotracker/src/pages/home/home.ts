@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 // import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
+
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 
 @Component({
@@ -10,7 +12,7 @@ import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocati
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController,private platform: Platform, private backgroundGeolocation: BackgroundGeolocation) {
+  constructor(public navCtrl: NavController,private platform: Platform, private backgroundGeolocation: BackgroundGeolocation, public toastCtrl: ToastController) {
     platform.ready().then(() => {
 
       // // get current position
@@ -35,6 +37,11 @@ export class HomePage {
         .subscribe((location: BackgroundGeolocationResponse) => {
 
           console.log(location);
+          const toast = this.toastCtrl.create({
+            message: location.coords.latitude.toString() ,
+            duration: 3000
+          });
+          toast.present();
 
           // IMPORTANT:  You must execute the finish method here to inform the native plugin that you're finished,
           // and the background-task may be completed.  You must do this regardless if your HTTP request is successful or not.
