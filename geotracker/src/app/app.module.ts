@@ -12,7 +12,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
+import { HttpClientModule } from '@angular/common/http';
 
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { environment } from '../environment/environment';
+import { FirebaseService } from '../providers/location/location';
+console.log(environment);
 @NgModule({
   declarations: [
     MyApp,
@@ -23,7 +29,10 @@ import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocati
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -37,7 +46,8 @@ import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocati
     StatusBar,
     SplashScreen,
     BackgroundGeolocation,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    FirebaseService
   ]
 })
 export class AppModule {}

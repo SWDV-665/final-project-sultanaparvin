@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 // import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
+import { FirebaseService } from '../../providers/location/location';
 
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 
@@ -11,6 +12,7 @@ import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocati
   templateUrl: 'home.html'
 })
 export class HomePage {
+  locations;
 
   latitude = ''; //set the initial value for latitude
   longitude = ''; //set the initial value for longitude
@@ -18,8 +20,8 @@ export class HomePage {
   intervalInMiliSeconds = 1000  * this.intervalInMinutes;
   timer;
   
-  constructor(public navCtrl: NavController,private platform: Platform, private backgroundGeolocation: BackgroundGeolocation, public toastCtrl: ToastController) {
-  
+  constructor(public navCtrl: NavController,private platform: Platform, private backgroundGeolocation: BackgroundGeolocation, public toastCtrl: ToastController, public firebaseService: FirebaseService) {
+    
     // this.platform.ready().then(() => {
     //   const config: BackgroundGeolocationConfig = {
     //           desiredAccuracy: 10,
@@ -43,6 +45,14 @@ export class HomePage {
     }, this.intervalInMiliSeconds);
   }
 
+  ionViewDidLoad() {
+    this.loadLocations();
+  }
+
+  loadLocations(){
+    this.locations  = this.firebaseService.getLocations();
+  }
+
   //Interval timer to keep calling getLocation method
   
 
@@ -60,6 +70,13 @@ export class HomePage {
     //this.backgroundGeolocation.stop(); // If you wish to turn OFF background-tracking, call the #stop method.
     this.mockGeoLocation();
     console.log('From DB:');
+    this.firebaseService.addLocation({
+        userId: 1,
+        latitude: this.latitude,
+        longitude: this.longitude,
+        datetime: new Date()
+    });
+    console.log(this.firebaseService.getLocations());
     //Send the location to the database
 
   }
