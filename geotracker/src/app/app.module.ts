@@ -4,8 +4,9 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
+import { MapPage } from '../pages/map/map';
+import { ListPage } from '../pages/list/list';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -18,13 +19,17 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../environment/environment';
 import { FirebaseService } from '../providers/location/location';
+
+import { GoogleMaps} from '@ionic-native/google-maps';
+
 console.log(environment);
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
-    ContactPage,
+    MapPage,
     HomePage,
+    ListPage,
     TabsPage
   ],
   imports: [
@@ -38,7 +43,8 @@ console.log(environment);
   entryComponents: [
     MyApp,
     AboutPage,
-    ContactPage,
+    MapPage,
+    ListPage,
     HomePage,
     TabsPage
   ],
@@ -47,7 +53,8 @@ console.log(environment);
     SplashScreen,
     BackgroundGeolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    FirebaseService
+    FirebaseService,
+    GoogleMaps
   ]
 })
 export class AppModule {}

@@ -18,8 +18,6 @@ export class FirebaseService {
         this.locations = afs.collection('locations').valueChanges();
     }
 
-    
-
     addLocation(value){
       return new Promise<any>((resolve, reject) => {
         this.afs.collection('/locations').add({
